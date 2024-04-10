@@ -44,7 +44,24 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenDiscOutsideBoardThenRuntimeException() {
-        assertThrows(RuntimeException.class, () -> tested.putDiscInColumn(8));
+        assertThatThrownBy(() -> {tested.putDiscInColumn(8);})
+                .isInstanceOf(RuntimeException.class);
+
+        assertThatThrownBy(() -> {tested.putDiscInColumn(-1);})
+                .isInstanceOf(RuntimeException.class);
+
+       /* assertThatThrownBy(() -> {
+            for (int i = 0; i <= 7; i++) {
+                tested.putDiscInColumn(3);
+            }
+        }).isInstanceOf(RuntimeException.class).hasMessage("No more room");
+        */
+
+       assertThrows(RuntimeException.class, () -> {
+           for (int i = 0; i <= 7; i++) {
+           tested.putDiscInColumn(1);
+           }
+       });
 
     }
 
