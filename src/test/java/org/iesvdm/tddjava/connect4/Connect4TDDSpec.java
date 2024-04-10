@@ -68,28 +68,31 @@ public class Connect4TDDSpec {
     @Test
     public void whenFirstDiscInsertedInColumnThenPositionIsZero() {
 
-        assertThat(tested.putDiscInColumn(0)).isEqualTo(0);
-
+        for (int i = 0; i < 7; i++) {
+            assertThat(tested.putDiscInColumn(i)).isEqualTo(0);
+        }
     }
 
     @Test
     public void whenSecondDiscInsertedInColumnThenPositionIsOne() {
-        tested.putDiscInColumn(1);
-        assertThat(tested.putDiscInColumn(1)).isEqualTo(1);
-
+        for (int i = 0; i < 7; i++) {
+            tested.putDiscInColumn(i);
+            assertThat(tested.putDiscInColumn(i)).isEqualTo(1);
+        }
     }
 
     @Test
     public void whenDiscInsertedThenNumberOfDiscsIncreases() {
-        tested.putDiscInColumn(1);
-        assertThat(tested.getNumberOfDiscs()).isEqualTo(1);
-
-
+        int discosInicio=0;
+        for (int i = 0; i < 7; i++) {
+            tested.putDiscInColumn(i);
+            assertThat(tested.getNumberOfDiscs()).isEqualTo(discosInicio + 1 +i);
+        }
     }
 
     @Test
     public void whenNoMoreRoomInColumnThenRuntimeException() {
-        for (int i = 0; i < Connect4.ROWS; ++i) {
+        for (int i = 0; i < Connect4.COLUMNS; ++i) {
             tested.putDiscInColumn(1);
         }
         assertThrows(RuntimeException.class, () -> tested.putDiscInColumn(1));
