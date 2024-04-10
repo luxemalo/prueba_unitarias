@@ -44,7 +44,7 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenDiscOutsideBoardThenRuntimeException() {
-
+        assertThrows(RuntimeException.class, () -> tested.putDiscInColumn(8));
 
     }
 
@@ -57,20 +57,25 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenSecondDiscInsertedInColumnThenPositionIsOne() {
-
+        tested.putDiscInColumn(1);
+        assertThat(tested.putDiscInColumn(1)).isEqualTo(1);
 
     }
 
     @Test
     public void whenDiscInsertedThenNumberOfDiscsIncreases() {
-
+        tested.putDiscInColumn(1);
+        assertThat(tested.getNumberOfDiscs()).isEqualTo(1);
 
 
     }
 
     @Test
     public void whenNoMoreRoomInColumnThenRuntimeException() {
-
+        for (int i = 0; i < Connect4.ROWS; ++i) {
+            tested.putDiscInColumn(1);
+        }
+        assertThrows(RuntimeException.class, () -> tested.putDiscInColumn(1));
 
 
     }
@@ -83,12 +88,18 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenFirstPlayerPlaysThenDiscColorIsRed() {
-
+        tested.putDiscInColumn(1);
+        String board = new String(output.toString()).trim();
+        assertThat(board).contains("R");
     }
 
     @Test
     public void whenSecondPlayerPlaysThenDiscColorIsGreen() {
-
+        tested.putDiscInColumn(1);
+        tested.getCurrentPlayer();
+        tested.putDiscInColumn(2);
+        String board = new String(output.toString()).trim();
+        assertThat(board).contains("G");
     }
 
     /*
@@ -98,14 +109,21 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenAskedForCurrentPlayerTheOutputNotice() {
-
+        tested.putDiscInColumn(1);
+        String board = new String(output.toString()).trim();
+        assertThat(board).contains("Current turn: GREEN");
 
 
     }
 
     @Test
     public void whenADiscIsIntroducedTheBoardIsPrinted() {
-
+        tested.putDiscInColumn(1);
+        String board = new String(output.toString()).trim();
+        for (int i = 0; i < Connect4.ROWS; ++i) {
+            assertThat(board).contains(String.valueOf(Connect4.Color.EMPTY));
+        }
+        assertThat(board).contains("1");
     }
 
     /*
@@ -114,12 +132,18 @@ public class Connect4TDDSpec {
 
     @Test
     public void whenTheGameStartsItIsNotFinished() {
+        assertThat(tested.isFinished()).isFalse();
 
     }
 
     @Test
     public void whenNoDiscCanBeIntroducedTheGamesIsFinished() {
-
+        for (int i = 0; i < Connect4.COLUMNS; ++i) {
+            for (int j = 0; j < Connect4.ROWS; ++j) {
+                tested.putDiscInColumn(i + 1);
+            }
+        }
+        assertThat(tested.isFinished()).isTrue();
     }
 
     /*
@@ -129,7 +153,13 @@ public class Connect4TDDSpec {
 
     @Test
     public void when4VerticalDiscsAreConnectedThenThatPlayerWins() {
-
+        for (int i = 0; i < Connect4.DISCS_FOR_WIN; ++i) {
+            tested.putDiscInColumn(1);
+            tested.getCurrentPlayer();
+        }
+        tested.putDiscInColumn(1);
+        String board = new String(output.toString()).trim();
+        assertThat(board).contains("RED wins");
     }
 
     /*
@@ -139,7 +169,12 @@ public class Connect4TDDSpec {
 
     @Test
     public void when4HorizontalDiscsAreConnectedThenThatPlayerWins() {
-
+        tested.putDiscInColumn(1);
+        for (int i = 2; i <= Connect4.COLUMNS; ++i) {
+            tested.putDiscInColumn(i);
+        }
+        String board = output.toString().trim();
+        assertThat(board).contains("RED wins");
     }
 
     /*
@@ -149,11 +184,30 @@ public class Connect4TDDSpec {
 
     @Test
     public void when4Diagonal1DiscsAreConnectedThenThatPlayerWins() {
-
+        tested.putDiscInColumn(1);
+        tested.putDiscInColumn(2);
+        tested.getNumberOfDiscs();
+        tested.putDiscInColumn(3);
+        tested.putDiscInColumn(4);
+        tested.putDiscInColumn(2);
+        tested.putDiscInColumn(1);
+        tested.putDiscInColumn(1);
+        String board = output.toString().trim();
+        assertThat(board).contains("RED wins");
     }
 
     @Test
     public void when4Diagonal2DiscsAreConnectedThenThatPlayerWins() {
-
+        for (int i = 0; i < 3; ++i) {
+            tested.putDiscInColumn(1);
+            tested.getCurrentPlayer();
+            tested.putDiscInColumn(Connect4.COLUMNS);
+        }
+        tested.putDiscInColumn(1);
+        tested.getCurrentPlayer();
+        tested.putDiscInColumn(Connect4.COLUMNS - 1);
+        tested.putDiscInColumn(1);
+        String board = output.toString().trim();
+        assertThat(board).contains("GREEN wins");
     }
 }
