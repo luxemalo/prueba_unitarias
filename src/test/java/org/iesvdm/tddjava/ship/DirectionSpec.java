@@ -15,23 +15,23 @@ public class DirectionSpec {
     }
 
     public void whenGetFromShortNameBThenReturnNone() {
-
+        assertEquals(Direction.getFromShortName('B'), Direction.NONE);
     }
 
     public void givenSWhenLeftThenE() {
-
+        assertEquals(Direction.SOUTH.turnLeft(), Direction.EAST);
     }
 
     public void givenNWhenLeftThenW() {
-
+        assertEquals(Direction.NORTH.turnLeft(), Direction.WEST);
     }
 
     public void givenSWhenRightThenW() {
-
+        assertEquals(Direction.SOUTH.turnRight(), Direction.WEST);
     }
 
     public void givenWWhenRightThenN() {
-
+        assertEquals(Direction.WEST.turnRight(), Direction.NORTH);
     }
 
 }

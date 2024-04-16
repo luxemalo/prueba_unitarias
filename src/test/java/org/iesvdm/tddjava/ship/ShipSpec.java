@@ -29,7 +29,7 @@ public class ShipSpec {
     public void whenInstantiatedThenLocationIsSet() {
 //        Location location = new Location(new Point(21, 13), Direction.NORTH);
 //        Ship ship = new Ship(location);
-
+        assertEquals(ship.getLocation(), location);
     }
 
 //    public void givenNorthWhenMoveForwardThenYDecreases() {
@@ -44,60 +44,76 @@ public class ShipSpec {
 //    }
 
     public void whenMoveForwardThenForward() {
-
+        assertTrue(ship.moveForward());
+        assertEquals(ship.getLocation().getY(), 12);
     }
 
     public void whenMoveBackwardThenBackward() {
-
+        assertTrue(ship.moveBackward());
+        assertEquals(ship.getLocation().getY(), 14);
     }
 
     public void whenTurnLeftThenLeft() {
+        ship.turnLeft();
+        assertEquals(ship.getLocation().getDirection(), Direction.WEST);
 
     }
 
     public void whenTurnRightThenRight() {
-
+        ship.turnRight();
+        assertEquals(ship.getLocation().getDirection(), Direction.EAST);
     }
 
     public void whenReceiveCommandsFThenForward() {
-
+        assertEquals(ship.receiveCommands("f"), "O");
     }
 
     public void whenReceiveCommandsBThenBackward() {
+        assertEquals(ship.receiveCommands("b"), "O");
     }
 
     public void whenReceiveCommandsLThenTurnLeft() {
-
+        assertEquals(ship.receiveCommands("l"), "O");
     }
 
     public void whenReceiveCommandsRThenTurnRight() {
-
+        assertEquals(ship.receiveCommands("r"), "O");
     }
 
     public void whenReceiveCommandsThenAllAreExecuted() {
-
+        assertEquals(ship.receiveCommands("fflff"), "OOOOX");
     }
 
     public void whenInstantiatedThenPlanetIsStored() {
 //        Point max = new Point(50, 50);
 //        Planet planet = new Planet(max);
 //        ship = new Ship(location, planet);
-
+        assertEquals(ship.getPlanet(), planet);
     }
 
     public void givenDirectionEAndXEqualsMaxXWhenReceiveCommandsFThenWrap() {
-
+        location.setDirection(Direction.EAST);
+        location.getPoint().setX(planet.getMax().getX());
+        ship = new Ship(location, planet);
+        assertEquals(ship.receiveCommands("f"), "O");
+        assertEquals(ship.getLocation().getX(), 1);
     }
 
     public void givenDirectionEAndXEquals1WhenReceiveCommandsBThenWrap() {
-
+        location.setDirection(Direction.EAST);
+        location.getPoint().setX(1);
+        ship = new Ship(location, planet);
+        assertEquals(ship.receiveCommands("b"), "O");
+        assertEquals(ship.getLocation().getX(), planet.getMax().getX());
     }
 
     public void whenReceiveCommandsThenStopOnObstacle() {
+        assertEquals(ship.receiveCommands("fffr"), "OOOX");
     }
 
     public void whenReceiveCommandsThenOForOkAndXForObstacle() {
-
+        assertEquals(ship.receiveCommands("ff"), "OO");
+        assertEquals(ship.receiveCommands("f"), "X");
     }
 
 }
