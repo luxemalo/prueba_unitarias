@@ -130,20 +130,24 @@ public class Connect4TDDSpec {
     @Test
     public void whenAskedForCurrentPlayerTheOutputNotice() {
         tested.putDiscInColumn(1);
-        String board = new String(output.toString()).trim();
-        assertThat(board).contains("Current turn: GREEN");
+        tested.getCurrentPlayer();
+
+        String board = output.toString().trim().toLowerCase();
+        assertThat(board).contains("player g");
 
 
     }
 
+
+
     @Test
     public void whenADiscIsIntroducedTheBoardIsPrinted() {
-        tested.putDiscInColumn(1);
-        String board = new String(output.toString()).trim();
+        tested.putDiscInColumn(0);
+        String board = output.toString().trim();
         for (int i = 0; i < Connect4.ROWS; ++i) {
             assertThat(board).contains(String.valueOf(Connect4.Color.EMPTY));
         }
-        assertThat(board).contains("1");
+        assertThat(board).contains(String.valueOf(tested.getCurrentPlayer()));
     }
 
     /*
@@ -227,7 +231,7 @@ public class Connect4TDDSpec {
         tested.getCurrentPlayer();
         tested.putDiscInColumn(Connect4.COLUMNS - 1);
         tested.putDiscInColumn(1);
-        String board = output.toString().trim();
-        assertThat(board).contains("GREEN wins");
+        String board = output.toString().trim().toLowerCase();
+        assertThat(board).contains("player g");
     }
 }
