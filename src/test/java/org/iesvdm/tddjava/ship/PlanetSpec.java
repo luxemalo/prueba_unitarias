@@ -1,5 +1,6 @@
 package org.iesvdm.tddjava.ship;
 
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ public class PlanetSpec {
 
     public void givenNullObstaclesListWhenInstantiatedThenEmptyListIsSet() {
         planet = new Planet(max, null);
-        assertNotNull(planet.getObstacles());
+        assertNull(planet.getObstacles(), "Es nulo");
+        assertNotNull(planet.getObstacles(), "Es valido");
         assertTrue(planet.getObstacles().isEmpty());
     }
 

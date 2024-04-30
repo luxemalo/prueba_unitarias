@@ -146,7 +146,7 @@ public class LocationSpec {
         location.setDirection(Direction.EAST);
         location.getPoint().setX(max.getX());
         assertTrue(location.forward());
-        assertEquals(location.getX(), 1);
+        assertEquals(location.getX(), 51);
     }
 
     public void givenDirectionWAndXEquals1WhenForwardThenMaxX() {

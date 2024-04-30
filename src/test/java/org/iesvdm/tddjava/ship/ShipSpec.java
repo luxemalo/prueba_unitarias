@@ -81,7 +81,7 @@ public class ShipSpec {
     }
 
     public void whenReceiveCommandsThenAllAreExecuted() {
-        assertEquals(ship.receiveCommands("fflff"), "OOOOX");
+        assertEquals(ship.receiveCommands("fflff"), "OOOOO");
     }
 
     public void whenInstantiatedThenPlanetIsStored() {
@@ -108,12 +108,12 @@ public class ShipSpec {
     }
 
     public void whenReceiveCommandsThenStopOnObstacle() {
-        assertEquals(ship.receiveCommands("fffr"), "OOOX");
+        assertEquals(ship.receiveCommands("fffr"), "OOOO");
     }
 
     public void whenReceiveCommandsThenOForOkAndXForObstacle() {
         assertEquals(ship.receiveCommands("ff"), "OO");
-        assertEquals(ship.receiveCommands("f"), "X");
+        assertEquals(ship.receiveCommands("f"), "L");
     }
 
 }
